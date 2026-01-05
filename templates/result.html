@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analysis Report - Resume Uncle</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon"
+        href="{{ url_for('static', filename='images/favicon/Gemini_Generated_Image_wgo8i6wgo8i6wgo8.png') }}">
     <style>
         .result-container {
             max-width: 1000px;
@@ -220,7 +222,9 @@
 <body>
     <nav class="navbar">
         <a href="{{ url_for('home') }}" class="logo">
-            <span>📄 Resume Uncle</span>
+            <img src="{{ url_for('static', filename='images/favicon/Gemini_Generated_Image_wgo8i6wgo8i6wgo8.png') }}"
+                alt="Resume Uncle Logo" style="height: 40px; width: auto; margin-right: 8px; border-radius: 6px;">
+            <span>Resume Uncle</span>
         </a>
     </nav>
 
