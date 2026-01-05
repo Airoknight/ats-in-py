@@ -1,4 +1,4 @@
-# HireLens — ATS Resume Checker
+# Resume Uncle — ATS Resume Checker
 
 HireLens is an AI-powered ATS (Applicant Tracking System) resume checker designed to simulate how real hiring systems and recruiters evaluate resumes.  
 The product focuses on **clarity, explainability, and professional credibility**, helping users understand *why* a resume works or fails — not just giving a score.
