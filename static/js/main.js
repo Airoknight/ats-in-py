@@ -75,10 +75,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const heroHeight = heroSection.offsetHeight;
         const windowHeight = window.innerHeight;
 
-        // Calculate scroll fraction within the hero section
-        // We want the animation to finish by the time looking at the hero section is done mainly
-        // But since hero is 400vh, we have plenty of room.
+        // 1. Text Fade Effect
+        // Fade out completely after scrolling 500px or so
+        const fadeStart = 0;
+        const fadeEnd = 500;
+        let opacity = 1 - (scrollTop - fadeStart) / (fadeEnd - fadeStart);
+        opacity = Math.max(0, Math.min(1, opacity));
 
+        // Also add a subtle translation
+        const translateY = scrollTop * 0.4;
+
+        const content = document.querySelector('.hero-content');
+        if (content) {
+            content.style.opacity = opacity;
+            content.style.transform = `translate(-50%, calc(-50% + ${translateY}px))`;
+        }
+
+        // 2. Image Sequence Logic
+        // Calculate scroll fraction within the hero section
         const scrollFraction = Math.max(0, Math.min(1, scrollTop / (heroHeight - windowHeight)));
 
         const frameIndex = Math.min(

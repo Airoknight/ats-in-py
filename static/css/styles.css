@@ -155,32 +155,45 @@ body::-webkit-scrollbar {
 
 .hero-title {
     font-family: 'Manrope', sans-serif;
-    font-size: 3.5rem;
+    font-size: 5rem;
     font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-    text-shadow: 0 2px 20px rgba(255, 255, 255, 0.8);
-    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    color: #0F172A;
+    text-shadow: none;
+    letter-spacing: -0.04em;
 }
 
 .hero-title::after {
     content: '';
     display: block;
-    width: 60px;
-    height: 4px;
+    width: 100px;
+    height: 6px;
     background: var(--accent-color);
-    margin: 20px auto 0;
-    border-radius: 2px;
+    margin: 24px auto 0;
+    border-radius: 4px;
+    animation: expandLine 1s ease-out forwards;
+}
+
+@keyframes expandLine {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+
+    to {
+        width: 100px;
+        opacity: 1;
+    }
 }
 
 .hero-subtitle {
-    font-size: 1.25rem;
-    color: var(--text-secondary);
+    font-size: 1.5rem;
+    color: #334155;
     max-width: 640px;
     margin: 0 auto;
-    font-weight: 400;
-    letter-spacing: 0.01em;
+    font-weight: 500;
+    letter-spacing: normal;
 }
 
 /* Canvas for Image Sequence */
