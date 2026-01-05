@@ -1,173 +1,102 @@
-# Resume Uncle — ATS Resume Checker
+# Resume Uncle - AI Powered ATS Resume Checker
 
-HireLens is an AI-powered ATS (Applicant Tracking System) resume checker designed to simulate how real hiring systems and recruiters evaluate resumes.  
-The product focuses on **clarity, explainability, and professional credibility**, helping users understand *why* a resume works or fails — not just giving a score.
+Resume Uncle is an advanced Applicant Tracking System (ATS) simulator and resume analyzer. It leverages the power of Google's **Gemini 2.5 Flash** model to parse, analyze, and score resumes against specific job descriptions. 
 
----
+This tool helps job seekers understand how "robot recruiters" view their applications, providing actionable insights to improve their ATS score and recruiter relevance.
 
-## 🚀 Project Vision
+## 🚀 Features
 
-Most resume checkers focus on keyword matching.  
-HireLens goes further by combining:
+*   **PDF Parsing**: robustly extracts text from PDF resumes using `PyPDF2`.
+*   **Deep AI Analysis**: Uses `gemini-2.5-flash` to act as a senior expert (SaaS Product Designer / AI Architect / Recruiter).
+*   **Comprehensive Scoring System** (0-100):
+    *   **ATS Compatibility**: Checks for formatting issues, columns, tables, and parseability.
+    *   **Recruiter Relevance**: How well the profile matches the "vibe" and level of the role.
+    *   **Skill Coverage**: Hard skill matching against the JD.
+    *   **Experience Alignment**: Seniority and background fit.
+*   **SWOT-style Parsing Insights**: Identifies Successes, Errors, and Risks in the resume structure.
+*   **Actionable Fixes**: Provides a prioritized list of specific improvements to increase the match rate.
 
-- Realistic ATS parsing simulation  
-- Recruiter readability analysis  
-- Semantic job description matching  
-- Clear, actionable feedback  
+## 🛠️ Tech Stack
 
-The goal is not to “beat the ATS,” but to **maximize interview probability**.
+*   **Backend**: Python, Flask
+*   **AI Engine**: Google GenAI SDK (`google-genai`)
+*   **PDF Engine**: `PyPDF2`
+*   **Frontend**: HTML5, Vanilla CSS (Modern Design), JavaScript
+*   **Environment**: `python-dotenv`
 
----
+## ⚙️ Installation & Setup
 
-## ✨ Key Features
+### Prerequisites
+*   Python 3.8 or higher
+*   A Google Cloud API Key with access to Gemini models.
 
-### 🔍 Single-Call AI Resume Analysis
-- All inputs are processed in **one AI API call**
-- No chained or hidden processing
-- Faster, cheaper, and easier to scale
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/resume-ats.git
+cd resume-ats
+```
 
-### 📊 Multi-Dimensional Scoring
-HireLens generates four explainable scores:
-- **ATS Compatibility Score**
-- **Recruiter Relevance Score**
-- **Skill Coverage Score**
-- **Experience Alignment Score**
+### 2. Create Virtual Environment (Optional but Recommended)
+```bash
+python -m venv venv
+# On Windows
+venv\Scripts\activate
+# On Mac/Linux
+source venv/bin/activate
+```
 
-Each score includes human-readable reasoning.
+### 3. Install Dependencies
+```bash
+pip install flask google-genai pypdf2 python-dotenv
+```
 
----
+### 4. Configure Environment Variables
+Create a file named `.env` in the root directory:
+```env
+GOOGLE_API_KEY=your_actual_api_key_here
+```
 
-### 🧠 Parsing & Risk Insights
-Shows how ATS systems interpret the resume:
-- Misread job titles
-- Broken or ambiguous dates
-- Experience gap risks
-- ATS-breaking formatting elements
+### 5. Run the Application
+```bash
+python main.py
+```
+The application will start at `http://127.0.0.1:5000/`.
 
-Example:
-> “Your job title was parsed incorrectly due to a two-column layout.”
+## 📖 Usage Guide
 
----
+1.  **Launch the App**: Open your browser to the local server address.
+2.  **Upload Resume**: Select your PDF resume file.
+3.  **Enter Job Details**:
+    *   **Target Company**: e.g., "Google", "Startup Inc."
+    *   **Target Role**: e.g., "Senior Backend Engineer"
+    *   **Job Description**: Paste the full text of the job posting.
+4.  **Analyze**: Click the button and wait for the AI to simulate the ATS process.
+5.  **Review Results**: detailed scores, insights, and formatting advice.
 
-### 🧩 Recruiter-Readable Feedback
-- Detects task-based vs impact-based bullets
-- Highlights clarity, density, and skimmability issues
-- Focuses on what recruiters notice in the first few seconds
+## 📂 Project Structure
 
----
+```
+├── main.py              # Application entry point and detailed AI logic
+├── check_models.py      # Utility to list available Gemini models
+├── prompts.txt         # Sample prompts or JD data (for testing)
+├── static/
+│   ├── css/            # Stylesheets
+│   └── js/             # Client-side scripts
+├── templates/
+│   ├── index.html      # Landing page
+│   ├── upload.html     # Upload form
+│   └── result.html     # Analysis dashboard
+└── README.md
+```
 
-### 🎯 Action-Oriented Fixes
-- Displays **Top 3 highest-impact fixes**
-- Ranked by shortlist probability improvement
-- Avoids overwhelming users with too many suggestions
+## 🤝 Contributing
 
----
-
-## 🧱 Architecture Overview
-
-### Inputs
-- Company Name
-- Job Role
-- Full Job Description
-- Resume (PDF/DOCX)
-
-### Processing
-- Single AI call using Gemini API
-- Semantic matching
-- ATS parsing simulation
-- Formatting survivability detection
-- Recruiter readability analysis
-
-### Outputs
-- Scores
-- Parsing insights
-- Risk flags
-- Actionable recommendations
-- Structured JSON response for UI rendering
-
----
-
-## 🎨 UI / UX Design Principles
-
-- **Glassmorphism** with frosted panels
-- Professional, enterprise-grade visual language
-- No playful or cartoonish UI
-- Progressive disclosure via scrolling
-- Expandable sections instead of step-by-step navigation
-
-### Color Palette
-- Primary: Cool blues
-- Secondary: Slate gray, muted teal, steel blue
-- Accent: Soft cyan
-- **No purple**
-
----
-
-## 🧭 User Experience Flow
-
-1. Upload resume and job description
-2. Short analysis animation (magnifying glass search)
-3. Results displayed in layers:
-   - Overall verdict + scores
-   - Score explanations
-   - Parsing & risk insights
-   - Top fixes
-4. Optional upgrade actions
-
-No forced steps. No hidden information.
-
----
-
-## 🔐 Trust & Privacy
-
-- No resume resale
-- Clear data handling boundaries
-- Designed for professional and enterprise use
-- Results are explainable, not black-box
-
----
-
-## 🛠️ Tech Stack (Suggested)
-
-- Frontend: React / Next.js
-- Styling: Tailwind CSS
-- Animations: Framer Motion
-- AI: Google Gemini API (`gemini-1.5-flash`)
-- File Parsing: PDF/DOCX text extraction
-- State & Caching: Local + server-side caching
-
----
-
-## 💡 Why HireLens Is Different
-
-- Simulates real ATS behavior
-- Explains results like a human recruiter
-- Focuses on decision clarity, not keyword spam
-- Designed as a career optimization engine, not a toy
-
----
-
-## 📌 Assignment Statement
-
-> “HireLens uses a single-call AI architecture and progressive disclosure UX to analyze resumes through both ATS and recruiter perspectives, providing transparent, actionable feedback that improves interview probability.”
-
----
-
-## 📈 Future Enhancements
-
-- Role- and company-specific resume versions
-- Outcome tracking (interview / rejection feedback loop)
-- Market benchmarking
-- Cover letter and LinkedIn optimization
-
----
-
-## 🧑‍💻 Author
-
-Built as an academic and product-design project to demonstrate modern AI-powered SaaS architecture, UX design, and recruiter-tech thinking.
-
----
+1.  Fork the repository.
+2.  Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4.  Push to the branch (`git push origin feature/AmazingFeature`).
+5.  Open a Pull Request.
 
 ## 📄 License
 
-This project is for educational and demonstration purposes.
+Distributed under the MIT License. See `LICENSE` for more information.
