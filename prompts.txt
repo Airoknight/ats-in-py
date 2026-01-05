@@ -1,0 +1,56 @@
+job descriptions = {"Software Engineer – JPMorgan Chase & Co.
+
+JPMorgan Chase is looking for a Software Engineer to join our global technology team. As a Software Engineer, you will be responsible for designing, developing, and maintaining high-quality software solutions that support critical business functions across the firm. You will work closely with product managers, designers, and other engineers to deliver scalable and secure applications.
+
+Responsibilities:
+
+Design, develop, test, and deploy software applications using modern programming languages and frameworks
+
+Collaborate with cross-functional teams to understand business requirements and translate them into technical solutions
+
+Write clean, maintainable, and efficient code following engineering best practices
+
+Participate in code reviews and contribute to continuous improvement of development standards
+
+Troubleshoot, debug, and resolve production issues
+
+Ensure applications meet security, performance, and compliance standards
+
+Required Qualifications:
+
+Bachelor’s degree in Computer Science, Engineering, or a related field
+
+Proficiency in one or more programming languages such as Java, Python, or JavaScript
+
+Strong understanding of data structures, algorithms, and object-oriented design
+
+Experience with RESTful APIs and backend services
+
+Familiarity with SQL or NoSQL databases
+
+Experience working in Agile development environments
+
+Preferred Qualifications:
+
+Experience with Spring Boot, React, Angular, or similar frameworks
+
+Exposure to cloud platforms such as AWS, Azure, or Google Cloud
+
+Knowledge of CI/CD pipelines and DevOps practices
+
+Experience building large-scale or distributed systems
+
+We offer:
+
+Opportunity to work on enterprise-scale systems in a global financial institution
+
+A collaborative and inclusive work environment
+
+Competitive compensation and comprehensive benefits
+
+Continuous learning and career development opportunities"
+}
+
+{
+    Design, build, and maintain scalable applications using Java, Python, or similar languages. Collaborate with cross-functional teams to deliver secure, high-performance systems. Apply strong data structures, algorithms, and system design principles while following best practices in testing, CI/CD, and cloud-native development. Financial services experience is a plus.
+}

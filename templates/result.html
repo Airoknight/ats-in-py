@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Report - Resume Uncle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .result-container {
+            max-width: 1000px;
+            margin: 140px auto 60px;
+            padding: 0 20px;
+        }
+
+        /* Layer 1: Verdict */
+        .verdict-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid #E2E8F0;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verdict-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .verdict-title {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .verdict-text {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 30px;
+        }
+
+        /* Score Grid */
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .score-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .score-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0 auto 16px;
+            background: white;
+        }
+
+        .score-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .score-impact {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: #E2E8F0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Layer 2: Deep Dive */
+        .insight-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid #E2E8F0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Layer 3: Parsing Insights */
+        .parsing-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: #F8FAFC;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 4px solid #CBD5E1;
+        }
+
+        .parsing-item.Success {
+            border-left-color: #10B981;
+        }
+
+        .parsing-item.Error {
+            border-left-color: #EF4444;
+        }
+
+        .parsing-item.Risk {
+            border-left-color: #F59E0B;
+        }
+
+        /* Layer 4: Clear Fixes */
+        .fix-list {
+            list-style: none;
+        }
+
+        .fix-item {
+            background: white;
+            border: 1px solid #E2E8F0;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .impact-badge {
+            background: #EFF6FF;
+            color: var(--primary-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 24px;
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #F8FAFC;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <span>📄 Resume Uncle</span>
+        </a>
+    </nav>
+
+    <div class="result-container">
+
+        <!-- Layer 1: The Verdict & Scores -->
+        <div class="verdict-card">
+            <div class="verdict-title">Overall Verdict</div>
+            <div class="verdict-text">"{{ data.verdict }}"</div>
+
+            <div class="score-grid">
+                {% for key, val in data.scores.items() %}
+                <div class="score-card">
+                    <div class="score-circle">{{ val.score }}</div>
+                    <div class="score-label">{{ key.replace('_', ' ').title() }}</div>
+                    <div class="score-impact">{{ val.impact }} Impact</div>
+                    <p style="font-size: 0.85rem; margin-top: 10px; color: var(--text-secondary);">{{ val.insight }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Layer 3: Parsing Insights (Moved up as requested: "This is gold") -->
+        <div class="insight-section">
+            <div class="section-header">
+                <span>🤖 Parsing & Risk Architecture</span>
+            </div>
+            <div class="card">
+                <p style="margin-bottom: 20px;">How algorithms actually read your resume file:</p>
+                {% for item in data.parsing_insights %}
+                <div class="parsing-item {{ item.type }}">
+                    <div>
+                        <strong style="display: block; color: var(--text-primary); margin-bottom: 4px;">{{ item.title
+                            }}</strong>
+                        <span style="font-size: 0.9rem; color: var(--text-secondary);">{{ item.description }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Layer 4: Top Fixes -->
+        <div class="insight-section">
+            <div class="section-header">
+                <span>⚡ High Impact Action Plan</span>
+            </div>
+            <ul class="fix-list">
+                {% for fix in data.top_fixes %}
+                <li class="fix-item">
+                    <div class="impact-badge">{{ fix.impact_score }}</div>
+                    <div>
+                        <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">{{ fix.fix }}</h3>
+                        <p style="color: var(--text-secondary);">{{ fix.description }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Mentorship Summary -->
+        <div class="card" style="background: #F0F9FF; border-color: #BAE6FD;">
+            <h3 style="color: #0369A1;">Professional Summary</h3>
+            <p style="color: #0C4A6E;">{{ data.summary }}</p>
+        </div>
+
+        <!-- Lead Generation / Upsell Section -->
+        <div class="insight-section" style="margin-top: 60px;">
+            <div class="card"
+                style="background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%); border-color: #BAE6FD; padding: 40px; position: relative; overflow: hidden;">
+                <div style="display: flex; align-items: center; gap: 40px; flex-wrap: wrap;">
+
+                    <!-- Mascot Image -->
+                    <div style="flex: 0 0 150px; text-align: center;">
+                        <img src="{{ url_for('static', filename='images/analyze/resume-uncle.png') }}"
+                            alt="Resume Uncle"
+                            style="width: 100%; max-width: 150px; drop-shadow: 0 10px 15px rgba(0,0,0,0.1);">
+                    </div>
+
+                    <!-- Content & Options -->
+                    <div style="flex: 1;">
+                        <h2 style="font-size: 1.8rem; color: #0C4A6E; margin-bottom: 10px; font-weight: 700;">Now Let's
+                            Upgrade Your Resume</h2>
+                        <p style="color: #0369A1; margin-bottom: 24px;">Transform this analysis into a job-winning
+                            resume with our premium tools.</p>
+
+                        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                            <a href="{{ url_for('home') }}#pricing" class="option-card"
+                                style="text-decoration: none; flex: 1; min-width: 250px; padding: 20px; background: white; border-radius: 12px; box-shadow: var(--shadow-sm); border: 2px solid transparent; transition: all 0.2s;">
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                                    <span style="font-size: 1.5rem;">🎯</span>
+                                    <strong style="color: var(--primary-color); font-size: 1.1rem;">Job-Specific
+                                        Resume</strong>
+                                </div>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary);">Tailors your resume to match
+                                    the exact job description keywords and requirements.</p>
+                            </a>
+
+                            <a href="{{ url_for('home') }}#pricing" class="option-card"
+                                style="text-decoration: none; flex: 1; min-width: 250px; padding: 20px; background: white; border-radius: 12px; box-shadow: var(--shadow-sm); border: 2px solid transparent; transition: all 0.2s;">
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                                    <span style="font-size: 1.5rem;">✨</span>
+                                    <strong style="color: var(--primary-color); font-size: 1.1rem;">Enhance &
+                                        Rewrite</strong>
+                                </div>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary);">Automatically rewrites
+                                    bullets for impact and fixes all ATS errors instantly.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="{{ url_for('upload_page') }}" class="back-btn">Analyze Another Resume</a>
+        </div>
+    </div>
+
+    <!-- Extra Styles for Options -->
+    <style>
+        .option-card:hover {
+            border-color: var(--primary-color) !important;
+            transform: translateY(-2px);
+            background: #F0F9FF !important;
+        }
+    </style>
+</body>
+
+</html>

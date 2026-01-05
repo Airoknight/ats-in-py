@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume - Resume Uncle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <span>📄 Resume Uncle</span>
+        </a>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+        </div>
+    </nav>
+
+    <div class="upload-container">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 class="section-title" style="margin-bottom: 12px;">Resume Analysis</h1>
+            <p style="color: var(--text-secondary);">Upload your details for a deep enterprise-grade ATS scan.</p>
+        </div>
+
+        <form action="/analyze" method="post" enctype="multipart/form-data">
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Target Company</label>
+                    <input type="text" name="company_name" placeholder="e.g. Google, Goldman Sachs" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Job Role</label>
+                    <input type="text" name="job_role" placeholder="e.g. Senior Software Engineer" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Job Description</label>
+                <textarea name="job_desc" rows="6" placeholder="Paste the full job description here..."
+                    required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Resume (PDF)</label>
+                <div class="file-drop-area">
+                    <input type="file" name="resume" accept=".pdf" required>
+                    <p style="margin-top: 12px; color: var(--text-secondary); font-size: 0.9rem;">Drag and drop or click
+                        to browse</p>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary"
+                style="width: 100%; padding: 16px; font-size: 1.1rem; cursor: pointer; margin-top: 10px;">
+                Start Full Analysis
+            </button>
+        </form>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <h2 style="font-size: 2rem; margin-bottom: 20px; color: #0F172A; font-weight: 800;">Resume Uncle</h2>
+        <div style="position: relative; width: 300px; height: 300px; margin-bottom: 20px;">
+            <img src="{{ url_for('static', filename='images/processing/loader.gif') }}" alt="Processing"
+                style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);">
+        </div>
+        <div class="loading-text" id="loadingText">Parsing resume content...</div>
+    </div>
+
+    <style>
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            transition: opacity 0.3s ease;
+        }
+    </style>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.style.display = 'flex';
+
+            const messages = [
+                "Parsing resume content...",
+                "Checking ATS compatibility...",
+                "Matching job keywords...",
+                "Enhancing bullet points...",
+                "Finalizing results..."
+            ];
+
+            let currentIndex = 0;
+            const textElement = document.getElementById('loadingText');
+
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % messages.length;
+                textElement.style.opacity = '0';
+
+                setTimeout(() => {
+                    textElement.textContent = messages[currentIndex];
+                    textElement.style.opacity = '1';
+                }, 300);
+
+            }, 1800);
+        });
+    </script>
+
+</html>
